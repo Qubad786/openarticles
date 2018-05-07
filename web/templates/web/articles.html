@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a href="{% url 'logout' %}"> Logout </a>
+
+<h2>Articles</h2>
+
+{% for article in articles %}
+    <div style="border-style: dashed; padding: 10px; margin: 10px">
+        <h3> {{ article.headline }} </h3>
+        <pre> {{ article.content }} </pre> <br>
+        <span> Status: {{ article.status }} </span> <br>
+        <span> Approved by: {{ article.approved_by.full_name | default:'N/A' }} </span> <br>
+        <span> Assigned to: {{ article.assigned_to.full_name | default:'N/A' }} </span> <br>
+        <a href="{% url 'article_details' article_id=article.id %}"> Show Details </a>
+    </div>
+{% endfor %}
+
+</body>
+</html>
