@@ -1,0 +1,72 @@
+{% extends "web/base.html" %}
+
+{% block title %} {{ article.headline }} {% endblock %}
+
+{% block content %}
+
+    <div class="ui container segment">
+
+    <div class="ui positive message">
+      <p>
+          {{ help_text | default:'Link to Google Docs can only indicate the completion of this article and it will lead to further review of this article.' }}
+      </p>
+    </div>
+
+    <form class="ui form" action="{% url 'update_article' article_id=article.id %}" method="post">
+        {%  csrf_token %}
+        <div style="padding: 20px;">
+            <h2 class="ui header"> {{ article.headline }}</h2>
+
+            <div class="field">
+                <label>Content/Body</label>
+                <textarea title="content" rows="2" name="content">
+                    {{ article.content }}
+                </textarea>
+            </div>
+
+            <div class="field">
+                <label>Google Docs Link</label>
+                <input type="url" title="docs_link" name="docs_link" value="{{ article.docs_link|default:'' }}">
+            </div>
+
+            {% if article.docs_link %}
+                <iframe
+                        width="1058px"
+                        height="1000px"
+                        src="{{ article.docs_link|default:'' }}"
+                >
+                </iframe>
+            {% endif %}
+
+            <div class="ui divided selection list">
+              <a class="item">
+                  <div class="ui purple horizontal label">{{ article.status }}</div>
+                  Status
+              </a>
+              <a class="item">
+                  <div class="ui horizontal label">{{ article.approved_by.full_name | default:'Not approved yet.' }}</div>
+                  Approval
+              </a>
+            </div>
+
+            {% if is_article_open %}
+                <br>
+                <input class="ui button" type="submit" value="Submit Article">
+                <br>
+            {% endif %}
+        </div>
+    </form>
+
+    <br><br>
+    <div class="ui form actions">
+        {% if is_article_in_review and has_approve_access %}
+            <form action="{% url 'approve_article' article_id=article.id %}" method="post">
+                {%  csrf_token %}
+                <input class="ui button green" type="submit" value="Approve">
+            </form>
+        {% endif %}
+    </div>
+
+    </div>
+
+{% endblock %}

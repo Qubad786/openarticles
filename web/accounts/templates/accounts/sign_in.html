@@ -1,0 +1,19 @@
+{% load semanticui %}
+<div class="ui stackable container">
+    <form action="{% url 'index' %}" method="post" class="ui form">
+        {% csrf_token %}
+        {% render_form form %}
+        <input type="submit" class="ui button" value="Login" />
+    </form>
+    {% if errors %}
+        <div class="ui error message">
+            <i class="close icon"></i>
+            <div class="header">
+            There were some errors with your login
+            </div>
+            <ul class="list">
+            <li>{{ errors }}</li>
+            </ul>
+        </div>
+    {%  endif %}
+</div>

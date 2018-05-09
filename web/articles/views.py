@@ -24,7 +24,7 @@ class ArticleView(View):
             has_approve_access=request.user.role == UserRole.EDITOR
         )
 
-        return render(request, template_name='web/article.html', context=ctx)
+        return render(request, template_name='articles/article.html', context=ctx)
 
     def post(self, request, article_id):
 
@@ -39,7 +39,9 @@ class ArticleView(View):
             raise Http404
 
         article.content = request.POST['content']
-        if 'docs.google.com' in article.content:
+        docs_link = request.POST['docs_link']
+        if 'docs.google.com' in docs_link:
+            article.docs_link = docs_link
             article.status = ArticleStatus.FOR_REVIEW
             article.assigned_to = request.user
             help_text = 'Article has been sent for further review.'
@@ -56,7 +58,7 @@ class ArticleView(View):
             help_text=help_text
         )
 
-        return render(request, template_name='web/article.html', context=ctx)
+        return render(request, template_name='articles/article.html', context=ctx)
 
 
 class ArticleApprovalView(View):
@@ -82,4 +84,4 @@ class ArticleApprovalView(View):
             has_approve_access=request.user.role == UserRole.EDITOR
         )
 
-        return render(request, template_name='web/article.html', context=ctx)
+        return render(request, template_name='articles/article.html', context=ctx)

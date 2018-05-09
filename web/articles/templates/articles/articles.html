@@ -1,0 +1,36 @@
+{% extends "web/base.html" %}
+
+{% block title %} {{ article.headline }} {% endblock %}
+
+{% block content %}
+
+    <h3 class="ui horizontal divider header">
+      Articles
+    </h3>
+
+    <div class="ui cards container">
+        {% for article in articles %}
+              <div class="card">
+                <div class="content">
+                  <div class="header">
+                    {{ article.headline }}
+                  </div>
+                  <div class="meta">
+                      <span> Approved by {{ article.approved_by.full_name | default:'N/A' }} </span> <br>
+                      <span> Assigned to {{ article.assigned_to.full_name | default:'N/A' }} </span> <br>
+                  </div>
+                  <div class="description">
+                    {{ article.content }}
+                  </div>
+                </div>
+
+                <div class="extra content">
+                    <a class="ui basic green button right floated" href="{% url 'article_details' article_id=article.id %}">Details</a>
+                    <span> {{ article.status|upper }} </span>
+                </div>
+
+              </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

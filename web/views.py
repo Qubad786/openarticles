@@ -14,7 +14,8 @@ class IndexView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            response = render(request, template_name='web/articles.html', context=dict(articles=Article.objects.all()))
+            context = dict(articles=Article.objects.all())
+            response = render(request, template_name='articles/articles.html', context=context)
         else:
             response = render(request, self.template_name, context=dict(form=SignInForm()))
 
@@ -43,7 +44,7 @@ class IndexView(View):
                 login(request, account)
                 response = render(
                     request,
-                    template_name='web/articles.html',
+                    template_name='articles/articles.html',
                     context=dict(articles=Article.objects.all())
                 )
         else:

@@ -1,54 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Open Articles</title>
-    {% load semanticui %}
-    <!-- The styles -->
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'web/css/semantic.min.css' %}"/>
-</head>
-<body>
+{% extends "web/base.html" %}
 
-<div class="container text-center">
-    <div class="row">
-        <div class="col-lg-12">
+{% block title %} Home {% endblock %}
 
-            <div class="ui top fixed menu">
-                <div class="item">
-                    <h2> Welcome to Open Articles </h2>
-                </div>
-                <a class="item" href="{% url 'register' %}"> Sign up </a>
-                <a class="item" href="{% url 'index' %}">Sign-in</a>
-            </div>
+{% block content %}
 
-            <div class="ui stackable container">
-                <form action="{% url 'index' %}" method="post" class="ui form">
-                    {% csrf_token %}
-                    {% render_form form %}
-                    <input type="submit" class="ui button" value="Login" />
-                </form>
-                {% if errors %}
-                    <div class="ui error message">
-                        <i class="close icon"></i>
-                        <div class="header">
-                        There were some errors with your login
-                        </div>
-                        <ul class="list">
-                        <li>{{ errors }}</li>
-                        </ul>
-                    </div>
-                {%  endif %}
-            </div>
+{% include 'accounts/sign_in.html' %}
 
-
-
-        </div>
-    </div>
-</div>
-
-<script src="{% static 'web/js/jquery-3.3.1.js' %}"></script>
-<script src="{% static 'web/js/semantic.min.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}

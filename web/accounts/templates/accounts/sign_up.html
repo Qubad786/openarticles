@@ -1,0 +1,40 @@
+{% load semanticui %}
+<div class="ui stackable container">
+
+    <form action="{% url 'register' %}" method="post" class="ui form">
+        {% csrf_token %}
+        {% render_form form %}
+
+        <div class="two fields">
+            <div class="required field">
+                <select title="gender" name="gender" class="ui dropdown" >
+                    <option value="">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="required field">
+                <select title="role" name="role" class="ui dropdown" required>
+                    <option value="">Role</option>
+                    <option value="writer">Writer</option>
+                    <option value="editor">Editor</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="submit" class="ui button" value="Register" />
+    </form>
+
+    {% if errors %}
+        <div class="ui error message">
+            <i class="close icon"></i>
+            <div class="header">
+            There were some errors with your login
+            </div>
+            <ul class="list">
+            <li>{{ errors }}</li>
+            </ul>
+        </div>
+    {%  endif %}
+
+</div>
